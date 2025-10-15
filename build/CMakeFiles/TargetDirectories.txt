@@ -1,0 +1,3 @@
+/Users/asal/rocksdb-bench/build/CMakeFiles/rocksdb_bench.dir
+/Users/asal/rocksdb-bench/build/CMakeFiles/edit_cache.dir
+/Users/asal/rocksdb-bench/build/CMakeFiles/rebuild_cache.dir
