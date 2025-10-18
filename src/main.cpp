@@ -1,5 +1,6 @@
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
+#include <rocksdb/filter_policy.h>
 #include <rocksdb/table.h>
 #include <rocksdb/write_batch.h>
 #include <chrono>

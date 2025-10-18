@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/asal/rocksdb-bench/build/cmake_install.cmake"
+		"/Users/asal/Downloads/spara/RocksDB-benchmark/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
