@@ -1,2 +1,6 @@
-# ignore database 
+# Ignore build directories
 build/
+*/build/
+
+# Ignore macOS system junk
+.DS_Store
