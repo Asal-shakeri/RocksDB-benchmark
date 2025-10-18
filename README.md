@@ -1,7 +1,7 @@
-# DevOps Challenge: RocksDB Hash Benchmark
+# RocksDB Hash Benchmark
 
 This project implements and documents a benchmarking challenge designed to test how **RocksDB** handles large-scale hash workloads.  
-It’s based on the **“Problem of Many Hashes”** from the DevOps Challenge, where millions of hash records must be stored, looked up, and updated efficiently.
+It’s based on the **“Problem of Many Hashes”**, where millions of hash records must be stored, looked up, and updated efficiently.
 
 ---
 
