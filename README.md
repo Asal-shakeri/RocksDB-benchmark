@@ -42,24 +42,21 @@ Our goal is to evaluate RocksDB’s performance under this workload.
 ## 🧱 Project Structure
 
 ```
-devops-hash-benchmark/
+.
+├── CMakeLists.txt
+├── LICENSE
 ├── README.md
-├── src/
-│   ├── benchmark.cpp
-│   ├── utils.hpp
-│   └── CMakeLists.txt
-├── scripts/
-│   ├── run_benchmarks.sh
-│   └── plot_results.py
-├── results/
-│   ├── results.csv
-│   └── plots/
-│       ├── throughput.png
-│       └── latency.png
-├── docs/
-│   ├── report.md
-│   └── setup_guide.md
-└── LICENSE
+├── build
+│   ├── CMakeCache.txt
+│   ├── CMakeFiles
+│   ├── Makefile
+│   ├── cmake_install.cmake
+│   ├── plots
+│   ├── run_matrix_full.sh
+│   ├── analyze_data.py
+│   └── rocksdb_bench
+└── src
+    └── main.cpp
 ```
 
 ---
@@ -112,17 +109,3 @@ python3 analyze_results.py
 
 ---
 
-## 🧠 Acknowledgments
-
-- **RocksDB Team** — for documentation and benchmarking tools  
-- **Facebook / Meta Open Source** — for RocksDB  
-- **OpenAI ChatGPT (GPT-5)** — assisted in documentation, design, and automation setup  
-
----
-
-## 📚 References
-
-- [RocksDB Wiki](https://github.com/facebook/rocksdb/wiki)
-- [RocksDB Blog](https://rocksdb.org/blog/)
-- [Designing Data-Intensive Applications](https://dataintensive.net/)
-- [DevOps Challenge PDF](docs/report.md)
