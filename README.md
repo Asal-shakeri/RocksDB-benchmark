@@ -105,7 +105,7 @@ python3 analyze_results.py
 
 - Raw data saved in: `results/results.csv`
 - Plots generated in: `results/plots/`
-- Analysis documented in: [`docs/report.md`](docs/report.md)
+- Analysis documented in: [`docs/doc.pdf`](docs/doc.pdf)
 
 ---
 
