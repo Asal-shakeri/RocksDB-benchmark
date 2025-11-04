@@ -86,26 +86,41 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    // ------------------- WRITE PHASE -------------------
-    size_t num_duplicates = static_cast<size_t>(size * duplicates);
-    size_t unique_count = size - num_duplicates;
-
-    std::vector<std::string> keys;
-    keys.reserve(size);
-
-    for (size_t i = 0; i < unique_count; ++i)
-        keys.push_back(randomHash());
-    for (size_t i = 0; i < num_duplicates; ++i)
-        keys.push_back(keys[i % unique_count]);
-
-    auto start_write = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < size; ++i) {
-        s = db->Put(WriteOptions(), keys[i], "val");
-        if (!s.ok()) std::cerr << "Write error: " << s.ToString() << std::endl;
-    }
-    double write_time = seconds_since(start_write);
-    double write_throughput = size / write_time;
-    double write_latency = write_time / size;
+    // -------- WRITE phase (via SST file) --------
+    std::string sst_path = path + "_temp.sst";
+    EnvOptions env_opts;
+    Options sst_options;
+    sst_options.compression = kNoCompression;
+    
+    SstFileWriter sst_writer(env_opts, sst_options);
+    
+    Status sst_status = sst_writer.Open(sst_path);
+    if (!sst_status.ok()) throw std::runtime_error("Failed to open SstFileWriter: " + sst_status.ToString());
+    
+    // Sort keys (RocksDB requires sorted order in SST)
+    std::sort(hashes.begin(), hashes.end());
+    
+    auto t1 = std::chrono::high_resolution_clock::now();
+    
+    // Write all hashes into the SST file
+    for (auto& h : hashes)
+        sst_writer.Put(h, "1");
+    
+    Status finish_status = sst_writer.Finish();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    if (!finish_status.ok()) throw std::runtime_error("Failed to finish SstFileWriter: " + finish_status.ToString());
+    
+    // Ingest SST into DB
+    IngestExternalFileOptions ingest_opts;
+    ingest_opts.move_files = true;
+    ingest_opts.write_global_seqno = false;
+    
+    auto t3 = std::chrono::high_resolution_clock::now();
+    Status ingest_status = db->IngestExternalFile({sst_path}, ingest_opts);
+    auto t4 = std::chrono::high_resolution_clock::now();
+    if (!ingest_status.ok()) throw std::runtime_error("SST ingestion failed: " + ingest_status.ToString());
+    
+    double write_time = std::chrono::duration<double>(t4 - t1).count();
 
     // ------------------- READ PHASE -------------------
     size_t found = 0;
