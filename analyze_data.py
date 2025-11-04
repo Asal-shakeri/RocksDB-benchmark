@@ -9,7 +9,11 @@ import matplotlib.pyplot as plt
 import os
 
 # --- Load data ---
-df = pd.read_csv("results.csv")
+cols = ["size","duplicates","bloom","compaction","format","batch",
+        "write_time","read_time","write_throughput","read_throughput",
+        "write_latency","read_latency","mem_kb","db_size"]
+df = pd.read_csv("results.csv", names=cols, header=None)
+
 
 # --- Prepare output folder ---
 os.makedirs("plots", exist_ok=True)
